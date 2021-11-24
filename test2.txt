@@ -1,0 +1,16 @@
+Opis: "inkrementacja"
+stany: 0,1,k
+alfabet: 0,1,_
+dlugosc slowa: 6
+slowo: 011001
+stan koncowy: k
+stan poczatkowy: 0
+instrukcja:
+0:
+0;0,0,r;
+1;0,1,r;
+_;1,_,l;
+1:
+0;k,1,s;
+1;1,0,l;
+_;k,_,s;

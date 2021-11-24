@@ -1,0 +1,20 @@
+Opis: "dekrementacja"
+stany: 0,1,2,k
+alfabet: 0,1,_
+dlugosc slowa: 6
+slowo: 011000
+stan koncowy: k
+stan poczatkowy: 0
+instrukcja:
+0:
+0;0,0,r;
+1;0,1,r;
+_;1,_,l;
+1:
+1;1,0,l;
+1;2,0,r;
+_;k,_,s;
+2:
+0;2,1,r;
+1;2,0,r;
+_;k,_,s;
