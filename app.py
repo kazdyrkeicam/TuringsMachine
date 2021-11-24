@@ -1,7 +1,7 @@
 import re
 import string
 
-with open("test.txt") as file:
+with open("test2.txt") as file:
     lines = file.read()
 
 lines = re.split(': |\n', lines)
@@ -55,24 +55,66 @@ def replacer(s, newstring, index, nofail=False):
 
 # MAIN #
 
-WHAT = 0
+'''
+    fileCommand Construction :
+    name : value
+'''
+
+'''
+    machineCommand :
+    state : [ 'SYMBOL;STATE,NEW_SYMBOL,DIRECTION;', '', '' ] -> lists size is the lenght of the alphabet AND this is list of strings
+'''
+
+'''
+    Call of machineCommand :
+    [ STATE ] [ String ] [ Element ]
+'''
+
+'''
+    What the dog doin?
+
+        while current state is not equal 'k'
+            printing the word
+
+            replace the symbol
+            choose direction
+
+            change the state
+        
+        print last state
+'''
+
+SYMBOL = 0
 STATE = 2
-ON_WHAT = 4
+NEW_SYMBOL = 4
 DIRECTION = 6
 
 currentState = fileCommand['stan poczatkowy']
 word = fileCommand['slowo'] + "_"
-position = " "
+head = " "
 index = 0
 
-for i in range(len(word)):
-    if word[ len(position) - 1 ] == "_":
-        print( word[-1] )
+
+while currentState != "k":
+    print( head + "| stan: " + currentState)
+    print( "_" + word )
+    
+    position = len(head) - 1
+
+    if word[ position ] == "_":
         index = -1
     else:
-        print( int(word[ len(position) - 1 ]) )
-        index = int(word[ len(position) - 1 ])
+        index = int( word[ position ] )
 
-    position += " "
+    temp = machineCommand[currentState][index]
+    word = replacer(word, temp[NEW_SYMBOL], position)
+    
+    if temp[DIRECTION] == "r":
+        head += " "
+    elif temp[DIRECTION] == "l":
+        head = head[1:]
+    
+    currentState = temp[STATE]
 
-    print( machineCommand[currentState][ index ] )
+print( head + "| stan: " + currentState)
+print( "_" + word )
