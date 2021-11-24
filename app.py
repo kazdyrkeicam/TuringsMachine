@@ -1,7 +1,7 @@
 import re
 import string
 
-with open("test2.txt") as file:
+with open("test3.txt") as file:
     lines = file.read()
 
 lines = re.split(': |\n', lines)
@@ -94,6 +94,20 @@ word = fileCommand['slowo'] + "_"
 head = " "
 index = 0
 
+# Dowolna liczba symboli pustych przed jest kasowana
+while True:
+    if word[index] == "_":
+        word = word[1:]
+    else:
+        break
+
+# Czy zawiera dobre znaki
+allowed_chars = set(fileCommand["alfabet"])
+validationString = word
+if not set(validationString).issubset(allowed_chars):
+    raise ValueError("bledne znaki w slowie")
+
+loopCounter = 0
 
 while currentState != "k":
     print( head + "| stan: " + currentState)
@@ -116,5 +130,13 @@ while currentState != "k":
     
     currentState = temp[STATE]
 
+    loopCounter += 1
+
+    # Przeciw zapetlanie
+    if loopCounter > 100:
+        raise ValueError("Przekroczono dopuszczalna liczbe obrotow petli programu!")
+
 print( head + "| stan: " + currentState)
 print( "_" + word )
+
+print("procedura zakonczona")
