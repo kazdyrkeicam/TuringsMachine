@@ -1,7 +1,10 @@
-import re
-import string
+import re, sys
 
-with open("test3.txt") as file:
+if len(sys.argv) == 1:
+    print ("Please give a filename")
+    sys.exit()
+
+with open(sys.argv[1] + ".txt") as file:
     lines = file.read()
 
 lines = re.split(': |\n', lines)
@@ -26,8 +29,6 @@ for item in temp:
     if len(item) == 2:
         temp.remove(item)
 
-# pierwsze (dlugosc alfabetu) elementy naleza do pierwszego stanu
-# i tak razy ilosc stanow - 1 (bo stan koncowy)
 
 stateNum = len(fileCommand["stany"]) - 1
 alphNum = len(fileCommand["alfabet"])
@@ -39,50 +40,17 @@ for i in range( stateNum ):
 
 
 def replacer(s, newstring, index, nofail=False):
-    # raise an error if index is outside of the string
     if not nofail and index not in range(len(s)):
         raise ValueError("index outside given string")
 
-    # if not erroring, but the index is still not in the correct range..
-    if index < 0:  # add it to the beginning
+    if index < 0:
         return newstring + s
-    if index > len(s):  # add it to the end
+    if index > len(s):
         return s + newstring
-
-    # insert the new string between "slices" of the original
     return s[:index] + newstring + s[index + 1:]
 
 
 # MAIN #
-
-'''
-    fileCommand Construction :
-    name : value
-'''
-
-'''
-    machineCommand :
-    state : [ 'SYMBOL;STATE,NEW_SYMBOL,DIRECTION;', '', '' ] -> lists size is the lenght of the alphabet AND this is list of strings
-'''
-
-'''
-    Call of machineCommand :
-    [ STATE ] [ String ] [ Element ]
-'''
-
-'''
-    What the dog doin?
-
-        while current state is not equal 'k'
-            printing the word
-
-            replace the symbol
-            choose direction
-
-            change the state
-        
-        print last state
-'''
 
 SYMBOL = 0
 STATE = 2
@@ -94,14 +62,12 @@ word = fileCommand['slowo'] + "_"
 head = " "
 index = 0
 
-# Dowolna liczba symboli pustych przed jest kasowana
 while True:
     if word[index] == "_":
         word = word[1:]
     else:
         break
 
-# Czy zawiera dobre znaki
 allowed_chars = set(fileCommand["alfabet"])
 validationString = word
 if not set(validationString).issubset(allowed_chars):
@@ -132,7 +98,6 @@ while currentState != "k":
 
     loopCounter += 1
 
-    # Przeciw zapetlanie
     if loopCounter > 100:
         raise ValueError("Przekroczono dopuszczalna liczbe obrotow petli programu!")
 
